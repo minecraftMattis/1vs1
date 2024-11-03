@@ -22,18 +22,25 @@ input.onButtonPressed(Button.A, function () {
         }
     }
 })
-function zeichne (x: number, y: number) {
-    if (a == 1) {
+function zeichne (x: number, y: number, isPlayer: boolean) {
+    if (isPlayer) {
+        if (a == 1) {
+            led.plot(x, y)
+        }
+        if (b == 1) {
+            led.plot(x + 1, y)
+        }
+        if (c == 1) {
+            led.plot(x, y + 1)
+        }
+        if (d == 1) {
+            led.plot(x + 1, y + 1)
+        }
+    } else {
         led.plot(x, y)
-    }
-    if (b == 1) {
         led.plot(x + 1, y)
-    }
-    if (c == 1) {
-        led.plot(x + 1, y + 1)
-    }
-    if (d == 1) {
         led.plot(x, y + 1)
+        led.plot(x + 1, y + 1)
     }
 }
 function calcMinX () {
@@ -193,14 +200,14 @@ basic.forever(function () {
         basic.showIcon(IconNames.Diamond)
         basic.showIcon(IconNames.SmallDiamond)
         basic.clearScreen()
-        zeichne(x, y)
+        zeichne(x, y, true)
         basic.pause(1000)
         basic.clearScreen()
-        zeichne(opponentX, opponentY)
+        zeichne(opponentX, opponentY, false)
         basic.pause(1000)
         basic.clearScreen()
-        zeichne(x, y)
-        zeichne(opponentX, opponentY)
+        zeichne(x, y, true)
+        zeichne(opponentX, opponentY, false)
         loescheTreffer()
         basic.pause(2000)
         radio.sendNumber(0)
@@ -235,7 +242,7 @@ basic.forever(function () {
             if (positionPinned == false) {
                 timer += 1
                 basic.clearScreen()
-                zeichne(x, y)
+                zeichne(x, y, true)
                 if (timer > 20) {
                     timer = 0
                     if (input.acceleration(Dimension.Y) > -200) {
